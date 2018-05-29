@@ -1,0 +1,15 @@
+
+*.DSN
+*.PWI
+*.SDF
+*.elf
+*.hex
+*.lss
+*.map
+*.srec
+*.d
+*.o
+*.d
+Controle_acesso/Debug/Makefile
+*.DBK
+.vs/Controle_acesso/v14/.atsuo

@@ -15,13 +15,10 @@ DB _db;
 enum Estados {aguarda_digito,cod_especial,v_senha,acessos,cria_user,permitido,negado};
 enum Estados _estados;
 unsigned char n_chars_senha=0;
-unsigned char n_chars_cod=0;
-char senha[6];
-char codigo[5];
+unsigned char senha[10];
 
 void inicializa_registradores();
-void verifica_cod();
-void verifica_senha();
+void limpa_senha();
 
 int main(void)
 {
@@ -29,7 +26,7 @@ int main(void)
 	_estados=aguarda_digito;
 	lcd.inic_LCD_8bits();
 	_db.cria_tabela();
-    while (1){}
+    while(1){}
 }
 
 void inicializa_registradores(){
@@ -43,64 +40,41 @@ void inicializa_registradores(){
 		sei();
 }
 void processa_char(char c){
-	if(c=='*'){
-		/*código para caracteres especiais*/
-		if (_estados==aguarda_digito){
-			codigo[0]=c;
-			n_chars_cod=1;
-			_estados=cod_especial;
+	if(c==0x0D){ //Verifica se foi pressionado o enter
+		/*Preparar para enviar para verificação de senha*/
+		lcd.escreve_LCD("Enter",true);
+		if(_db.verifica_senha(senha,n_chars_senha)){
+			lcd.escreve_LCD("Belezaa",true);
 		}
-		else{
-			/*Erro, não é possível digitar esse caracter durante outros estados*/
+		else
+			lcd.escreve_LCD("Não deu match!",true);
+		_delay_ms(500);
+		lcd.escreve_LCD("Digite a senha:",true);
+		limpa_senha();
+	}
+	else if((c==0x08)&&(n_chars_senha>0)){ //Verifica se o backspace foi pressionado e se o numero de caracteres é positivo
+		n_chars_senha--;
+		senha[n_chars_senha]=0x00; //remove o ultimo caracter do array
+		lcd.escreve_LCD("Senha: ",true);
+		for(int i=0;i<n_chars_senha;i++){
+					lcd.escreve_LCD("*",false); //Escreve asteriscos para cada caracter na senha
 		}
 	}
-	else if(c==0x08){ //Verifica se a tecla é backspace
-		if(_estados!=aguarda_digito){
-			lcd.cmd_LCD(0b010000,0); //Seta o cursor pra uma casa antes
-			_delay_ms(10);
-			lcd.cmd_LCD(0b00100000,1); //Substitui o caracter por espaço
-			lcd.cmd_LCD(0b010000,0); //Volta uma casa
-			clp_bit(PORTC,LED);
-			if(_estados==v_senha)
-			n_chars_senha--;
-			else if(_estados==cod_especial)
-			n_chars_cod--;
-		}
-	}
-	else if((c>48)&&(c<57)){
-		if((_estados==aguarda_digito)||(_estados==v_senha)){
-			senha[n_chars_senha]=c;
+	else if(c>0x21){ //verifica se teclas não especiais foram pressionadas
+		senha[n_chars_senha]=c;
+		lcd.escreve_LCD("Senha: ",true);
+		if(n_chars_senha<9)
 			n_chars_senha++;
-		}
-		else if(_estados==cod_especial){
-			n_chars_cod++;
-			codigo[n_chars_cod-1]=c;
+		for(int i=0;i<n_chars_senha;i++){
+			lcd.escreve_LCD("*",false);
 		}
 	}
-	else{
-		lcd.escreve_LCD("Caracter inválido!",true);
-		_delay_ms(1000);
-	}
-	if(n_chars_cod==5){
-		verifica_cod();
-		n_chars_cod=0;
-	}
-	else if(n_chars_senha==6){
-		verifica_senha();
-		n_chars_senha=0;
-	}
-		
 }
-
-void verifica_cod(){
-	lcd.cmd_LCD(0x80,0);
-	lcd.escreve_LCD("Codigo especial: ",true);
-	lcd.cmd_LCD(0x40|0x80,0);
-	lcd.escreve_LCD(codigo,false);
-}
-
-void verifica_senha(){
-	
+void limpa_senha(){
+			for(int i=0;i<n_chars_senha;i++){
+				senha[i]=0x00;
+			}
+			n_chars_senha=0;
 }
 
 ISR(USART_RX_vect){

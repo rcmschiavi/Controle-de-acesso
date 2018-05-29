@@ -19,7 +19,6 @@ void DB::cria_tabela(){
 		db[n-1].senha[i]=i+49; //A senha do user 1 é 123456
 	}
 	db[n-1].acessos=48;
-	//lcd.usuario_criado(&db[n-1].userID);
 }
 void DB::criar_user(){
 	n++;
@@ -30,4 +29,19 @@ void DB::criar_user(){
 	}
 	db[n-1].acessos=48;
 	lcd.usuario_criado(&db[n-1].userID);
+}
+
+bool DB::verifica_senha(unsigned char *senha,unsigned char tamanho_senha){
+	int caracteres_corretos=0;
+ 	if(tamanho_senha==6){
+		 
+		 for(int i=0;i<tamanho_senha;i++){
+ 			if(senha[i]==db[0].senha[i])
+ 				caracteres_corretos++;
+		 }
+ 	}
+	 if (caracteres_corretos==6)
+		 return true;
+	 else
+		return false;
 }

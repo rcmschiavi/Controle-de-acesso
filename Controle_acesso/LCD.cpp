@@ -60,5 +60,5 @@ void LCD::usuario_criado(unsigned char* usuario){
 		usuario++;
 		cmd_LCD(*usuario,1);
 	}
-	_delay_ms(5000);
+	_delay_ms(500);
 }

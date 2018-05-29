@@ -17,6 +17,7 @@ class DB{
 		bool get_acesso(){ return acesso_permitido; }
 		void cria_tabela();
 		void criar_user();
+		bool verifica_senha(unsigned char*,unsigned char);
 	private:
 	LCD lcd;
 		struct dataBase{
