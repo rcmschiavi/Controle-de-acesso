@@ -16,17 +16,18 @@ class DB{
 		void set_acesso(bool ok);
 		bool get_acesso(){ return acesso_permitido; }
 		void cria_tabela();
-		void criar_user();
-		bool verifica_senha(unsigned char*,unsigned char);
+		int verifica_senha(unsigned char*,unsigned char);
 	private:
 	LCD lcd;
+		void criar_user();
+		void opera_cod(int);
 		struct dataBase{
 			unsigned char userID, senha[6], acessos;
 		};
 		int n;
 		dataBase *db;
 		bool acesso_permitido;
-		static char cod_esp[];
+		unsigned char cod_esp[2][6] = {"*144#","!122@"};
 	};
 
 

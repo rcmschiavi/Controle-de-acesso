@@ -15,7 +15,6 @@
 #include <avr/pgmspace.h>
 #include <stdlib.h>
 #include <avr/interrupt.h>
-#include <string.h>
 
 using namespace std;
 
@@ -33,6 +32,7 @@ using namespace std;
 #define RS PORTD2 //pino de instru??o ou dado para o LCD
 #define E PORTD3 //pino de enable do LCD
 #define pulso_enable() _delay_us(10); set_bit(CONTR_LCD,E); _delay_us(10); clr_bit(CONTR_LCD,E); _delay_us(450);
+#define linha_inf lcd.cmd_LCD(0x80|0x40,0)
 
 
 

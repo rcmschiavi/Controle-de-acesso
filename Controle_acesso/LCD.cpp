@@ -23,6 +23,8 @@ void LCD::inic_LCD_8bits()//sequ?ncia ditada pelo fabricando do circuito de cont
 	cmd_LCD(0x0C,0); //mensagem aparente cursor inativo n?o piscando
 	cmd_LCD(0x80,0); //escreve na primeira posi??o a esquerda - 1? linha
 	sist_inic();
+	cria_caracter();
+	cmd_LCD(0x80,0);
 }
 void LCD::cmd_LCD(unsigned char c, char cd)//c ? o dado e cd indica se ? instru??o ou caractere
 {
@@ -50,15 +52,40 @@ void LCD::sist_inic(){
 	limpa();
 }
 void LCD::usuario_criado(unsigned char* usuario){
+	char str[16];
 	limpa();
 	cmd_LCD(0x80,0); //Seta o cursor pra primeira posição
 	escreve_LCD("UserID: ",false);
-	cmd_LCD(*usuario,1);
+	itoa(*usuario, str,10); //Tratamento do valor do inteiro para quando passar de 9 não seguir a tabela ascII
+	escreve_LCD(str,false);
 	cmd_LCD(0x80|0x40,0); //Seta o cursor pra linha de baixo
-	escreve_LCD("Senha: ",false);											   
+	escreve_LCD("Senha: ",false);										   
 	for(int i=0;i<6;i++){
 		usuario++;
 		cmd_LCD(*usuario,1);
 	}
-	_delay_ms(500);
+	_delay_ms(2000);
+}
+
+void LCD::tela_inicio(){
+	escreve_LCD("Laborat rio X",true);
+	cmd_LCD(0x80|0x07,0); //Posiciona o cursor no espaço criado
+	cmd_LCD(0x00,1); //Grava o caracter criado, que está na posição 0 da CG RAM
+}
+
+void LCD::cria_caracter(){
+	cmd_LCD(0x40,0);
+	cmd_LCD(0b00010,1);
+	cmd_LCD(0x41,0);
+	cmd_LCD(0b00100,1);
+	cmd_LCD(0x42,0);
+	cmd_LCD(0b01110,1);
+	cmd_LCD(0x43,0);
+	cmd_LCD(0b10001,1);
+	cmd_LCD(0x44,0);
+	cmd_LCD(0b10001,1);
+	cmd_LCD(0x45,0);
+	cmd_LCD(0b10001,1);
+	cmd_LCD(0x46,0);
+	cmd_LCD(0b01110,1);
 }

@@ -13,3 +13,7 @@
 Controle_acesso/Debug/Makefile
 *.DBK
 .vs/Controle_acesso/v14/.atsuo
+Controle_acesso/Debug/makedep.mk
+Controle_acesso/Controle_acesso.cppproj
+Controle_acesso/Debug/Controle_acesso.eep
+Controle_acesso/Controle_acesso.componentinfo.xml
