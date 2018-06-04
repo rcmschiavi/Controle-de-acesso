@@ -1,6 +1,8 @@
 /*
  * LCD.h
  *
+ *Arquivo de cabeçalho da classe LCD que faz as atividades mais internas do display
+ *
  * Created: 26/05/2018 00:43:40
  *  Author: RodolfoSchiavi
  */ 

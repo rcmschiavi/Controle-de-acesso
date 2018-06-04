@@ -1,6 +1,8 @@
 /*
  * Serial.h
  *
+ *Arquivo de cabeçalho para a classa DB - Data Base que contém os dados dos usuários, fazendo a inclusão e verificação dos códigos inseridos
+ *
  * Created: 26/05/2018 01:35:28
  *  Author: RodolfoSchiavi
  */ 

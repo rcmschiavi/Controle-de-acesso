@@ -1,6 +1,8 @@
 /*
  * portas.h
  *
+ *Arquivo com os includes e macros necessários no projeto
+ *
  * Created: 26/05/2018 01:04:17
  *  Author: RodolfoSchiavi
  */ 
@@ -32,7 +34,7 @@ using namespace std;
 #define RS PORTD2 //pino de instru??o ou dado para o LCD
 #define E PORTD3 //pino de enable do LCD
 #define pulso_enable() _delay_us(10); set_bit(CONTR_LCD,E); _delay_us(10); clr_bit(CONTR_LCD,E); _delay_us(450);
-#define linha_inf lcd.cmd_LCD(0x80|0x40,0)
+#define linha_inf lcd.cmd_LCD(0x80|0x40,0) //Macro para setar o cursor na linha debaixo do display fora da classe LCD
 
 
 

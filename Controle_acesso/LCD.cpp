@@ -1,6 +1,8 @@
 /*
  * LCD.cpp
  *
+ *Arquivo com as funções do LCD
+ *
  * Created: 26/05/2018 00:43:51
  *  Author: RodolfoSchiavi
  */ 
@@ -44,9 +46,11 @@ void LCD::escreve_LCD(char *c,bool limpar)
 }
 void LCD::limpa()
 {
+	/*Limpa a tela*/
 	cmd_LCD(0x01,0);
 }
 void LCD::sist_inic(){
+	/*Inicialização do sistema*/
 	escreve_LCD("Sistema iniciado.",true);
 	_delay_ms(500);
 	limpa();
@@ -74,6 +78,7 @@ void LCD::tela_inicio(){
 }
 
 void LCD::cria_caracter(){
+	/*Função que cria o caractér 'ó', que não contém na memória do display*/
 	cmd_LCD(0x40,0);
 	cmd_LCD(0b00010,1);
 	cmd_LCD(0x41,0);
